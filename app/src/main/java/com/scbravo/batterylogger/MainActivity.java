@@ -185,7 +185,7 @@ public class MainActivity extends Activity {
 		chronometer.stop();
 		chronometer.setBase(SystemClock.elapsedRealtime() + pausedOffset);
 
-		if (isMyServiceRunning(BatteryService.class) || isMyServiceRunning(MyService.class) && previousChronoTime > 0) {
+		if ((isMyServiceRunning(BatteryService.class) || isMyServiceRunning(MyService.class)) && previousChronoTime > 0) {
 			chronometer.setBase(previousChronoTime);
 			chronometer.start();
 			chronometer.setTextColor(getResources().getColor(R.color.greenHex));
