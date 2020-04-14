@@ -1,0 +1,58 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.scbravo.batterylogger.MainActivity" >
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:onClick="startNewService"
+        android:text="@string/SERVICE_START_TITLE" />
+
+    <Button
+        android:id="@+id/button2"
+        android:textColor="@color/redHex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button"
+        android:layout_marginTop="32dp"
+        android:onClick="stopNewService"
+        android:text="@string/SERVICE_END_TITLE" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button1"
+        android:layout_marginTop="32dp"
+        android:onClick="startNewServiceBrute"
+        android:text="@string/SERVICE_START_BRUTE_TITLE" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button2"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="66dp"
+        android:id="@+id/label_status"
+        android:text="SERVICE_STATUS"
+        android:textSize="16dp" />
+
+    <Chronometer
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/label_status"
+        android:layout_marginTop="16dp"
+        android:id="@+id/service_status"
+        android:textColor="@color/greenHex"
+        android:text="STOPPED"
+        android:textSize="48dp" />
+
+</RelativeLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BatteryLogger</string>
+    <string name="action_settings">Settings</string>
+    <string name="SERVICE_START">SERVICE : START</string>
+    <string name="SERVICE_START_TITLE">Start Service</string>
+    <string name="SERVICE_START_BRUTE_TITLE">Start Service (Brute)</string>
+    <string name="SERVICE_START_BRUTE">START BRUTE, WARNING</string>
+    <string name="SERVICE_END_TITLE">End Service (Both)</string>
+    <string name="SERVICE_END">SERVICE : END</string>
+    <string name="BRUTE_SERVICE_START">BRUTE SERVICE: START</string>
+    <string name="BRUTE_SERVICE_END">BRUTE SERVICE: END</string>
+    <string name="SERVICE_TAG">Service</string>
+    <string name="SERVICE_ONCREATE">onCreate</string>
+    <string name="SERVICE_ONDESTROY">onDestroy</string>
+</resources>

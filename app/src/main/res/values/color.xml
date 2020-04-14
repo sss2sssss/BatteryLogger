@@ -1,0 +1,7 @@
+<resources>
+
+    <!-- Default color, per the Android Design guidelines. -->
+    <color name="greenHex">#18d665</color>
+    <color name="orangeHex">#ff9800</color>
+    <color name="redHex">#fc2929</color>
+</resources>
