@@ -76,6 +76,7 @@ public class MainActivity extends Activity {
 		startService(new Intent(this, MyService.class));
 
 		chronometer.setTextColor(getResources().getColor(R.color.greenHex));
+		chronometer.setBase(SystemClock.elapsedRealtime());
 		chronometer.start();
 		serviceBruteBtn.setEnabled(false);
 		serviceBtn.setEnabled(false);
@@ -87,6 +88,7 @@ public class MainActivity extends Activity {
 		isStoragePermissionGranted();
 		startService(new Intent(this, BatteryService.class));
 		chronometer.setTextColor(getResources().getColor(R.color.greenHex));
+		chronometer.setBase(SystemClock.elapsedRealtime());
 		chronometer.start();
 		serviceBruteBtn.setEnabled(false);
 		serviceBtn.setEnabled(false);
