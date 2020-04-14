@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -50,16 +51,32 @@ public class MainActivity extends Activity {
 		serviceBtn = findViewById(R.id.button1);
 		serviceBruteBtn = findViewById(R.id.button);
 		serviceStopBtn = findViewById(R.id.button2);
-		chronometer.setBase(SystemClock.elapsedRealtime() + pausedOffset);
-		chronometer.setTextColor(getResources().getColor(R.color.orangeHex));
+		}
+
+	@Override
+	protected void onResume()
+	{
+			super.onResume();
+			getCurrentRunningState();
+		}
+
+	@Override
+	protected void onPause()
+	{
+			super.onPause();
+			if (isMyServiceRunning(BatteryService.class) || isMyServiceRunning(MyService.class)) {
+				WriteCurrentRunningState(true);
+			} else {
+				WriteCurrentRunningState(false);
+			}
 		}
 
 	public void startNewService(View view) {
 		isStoragePermissionGranted();
 		startService(new Intent(this, MyService.class));
 
-		chronometer.start();
 		chronometer.setTextColor(getResources().getColor(R.color.greenHex));
+		chronometer.start();
 		serviceBruteBtn.setEnabled(false);
 		serviceBtn.setEnabled(false);
 		serviceStopBtn.setEnabled(true);
@@ -130,6 +147,7 @@ public class MainActivity extends Activity {
 		chronometer.setBase(SystemClock.elapsedRealtime());
 		pausedOffset = 0;
 		chronometer.setTextColor(getResources().getColor(R.color.redHex));
+		WriteCurrentRunningState(false);
 	}
 
 	@Override
@@ -139,19 +157,51 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	@Override
-	public void onBackPressed() {
-		if (isMyServiceRunning(BatteryService.class) || isMyServiceRunning(MyService.class)) {
-			//GO HOME, SharedPref and Instance doesn't work with Chronometer lul
-				Intent intent = new Intent(Intent.ACTION_MAIN);
-				intent.addCategory(Intent.CATEGORY_HOME);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intent);
-			return;
+	private void WriteCurrentRunningState(boolean flag)
+	{
+		SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		if (flag)
+		{
+			long currentChronoTime = chronometer.getBase();
+			editor.putLong("chorno_time", currentChronoTime);
+		}
+		else
+		{
+			editor.putLong("chorno_time", 0);
+		}
+
+		editor.commit();
+	}
+
+	private void getCurrentRunningState()
+	{
+		SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+		long previousChronoTime = sharedPref.getLong("chorno_time", 0);
+
+		chronometer.stop();
+		chronometer.setBase(SystemClock.elapsedRealtime() + pausedOffset);
+
+		if (isMyServiceRunning(BatteryService.class) || isMyServiceRunning(MyService.class) && previousChronoTime > 0) {
+			chronometer.setBase(previousChronoTime);
+			chronometer.start();
+			chronometer.setTextColor(getResources().getColor(R.color.greenHex));
+			serviceBruteBtn.setEnabled(false);
+			serviceBtn.setEnabled(false);
+			serviceStopBtn.setEnabled(true);
 		} else {
-			super.onBackPressed();
+			pausedOffset =   chronometer.getBase() - SystemClock.elapsedRealtime();
+			Log.i("DIFFERENCE TIME", String.valueOf(pausedOffset));
+			chronometer.stop();
+			chronometer.setBase(SystemClock.elapsedRealtime());
+			pausedOffset = 0;
+			chronometer.setTextColor(getResources().getColor(R.color.orangeHex));
+			serviceBruteBtn.setEnabled(true);
+			serviceBruteBtn.setEnabled(true);
+			serviceStopBtn.setEnabled(false);
 		}
 	}
+
 	private boolean isMyServiceRunning(Class<?> serviceClass) {
 		ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 		for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
