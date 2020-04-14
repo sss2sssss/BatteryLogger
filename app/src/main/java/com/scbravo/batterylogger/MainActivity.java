@@ -51,6 +51,7 @@ public class MainActivity extends Activity {
 		serviceBtn = findViewById(R.id.button1);
 		serviceBruteBtn = findViewById(R.id.button);
 		serviceStopBtn = findViewById(R.id.button2);
+		chronometer.setTextColor(getResources().getColor(R.color.orangeHex));
 		}
 
 	@Override
@@ -197,7 +198,6 @@ public class MainActivity extends Activity {
 			chronometer.stop();
 			chronometer.setBase(SystemClock.elapsedRealtime());
 			pausedOffset = 0;
-			chronometer.setTextColor(getResources().getColor(R.color.orangeHex));
 			serviceBruteBtn.setEnabled(true);
 			serviceBruteBtn.setEnabled(true);
 			serviceStopBtn.setEnabled(false);
